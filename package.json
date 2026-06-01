@@ -1,0 +1,14 @@
+{
+  "name": "brand-kit-studio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Local-first brand kit generator for project workspaces.",
+  "license": "Apache-2.0",
+  "scripts": {
+    "dev": "node server.js",
+    "check": "node --check server.js && node --check src/app.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

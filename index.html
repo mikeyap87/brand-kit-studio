@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brand Kit Studio</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand-lockup" href="#intake" aria-label="Brand Kit Studio home">
+          <span class="brand-mark" aria-hidden="true">BK</span>
+          <span>
+            <strong>Brand Kit Studio</strong>
+            <small>Local project brand generator</small>
+          </span>
+        </a>
+        <nav class="tabs" aria-label="Workflow">
+          <a href="#intake">Intake</a>
+          <a href="#preview">Preview</a>
+          <a href="#export">Export</a>
+        </nav>
+        <button class="icon-button" id="resetButton" type="button" title="Reset demo state" aria-label="Reset demo state">
+          <span aria-hidden="true">R</span>
+        </button>
+      </header>
+
+      <main class="studio-grid">
+        <section class="panel intake-panel" id="intake" aria-labelledby="intakeTitle">
+          <div class="section-heading">
+            <p>Input Brief</p>
+            <h1 id="intakeTitle">Turn a rough idea into a project-ready brand pack.</h1>
+          </div>
+
+          <div class="packet-importer" id="packetImporter">
+            <div>
+              <p class="label">Automation bridge</p>
+              <strong>Paste a Codex Brand Intake Packet</strong>
+              <span>Run the prompt in any project chat, paste the output here, then import it.</span>
+            </div>
+            <label class="field packet-field">
+              <span>Brand Intake Packet</span>
+              <textarea id="packetInput" rows="7" placeholder="Paste JSON or markdown from the project chat here..."></textarea>
+            </label>
+            <div class="packet-actions">
+              <button class="secondary-action compact-action" id="copyPacketPromptButton" type="button">
+                Copy intake prompt
+              </button>
+              <button class="primary-action compact-action" id="importPacketButton" type="button">
+                Import packet
+              </button>
+            </div>
+            <p class="packet-status" id="packetStatus">No packet imported yet.</p>
+          </div>
+
+          <label class="field">
+            <span>Project or brand name</span>
+            <input id="brandName" type="text" value="Brand Kit Studio" />
+          </label>
+
+          <label class="field">
+            <span>Website, repo, or source URL</span>
+            <input id="sourceUrl" type="url" placeholder="http://127.0.0.1:5231/ or project notes" />
+          </label>
+          <div class="url-capture-actions">
+            <button class="secondary-action compact-action" id="captureUrlButton" type="button">
+              Capture local URL
+            </button>
+            <p class="packet-status" id="captureStatus">Use localhost or 127.0.0.1 to pull in a real project frame.</p>
+          </div>
+
+          <label class="field">
+            <span>Audience</span>
+            <input id="audience" type="text" value="Founders and operators starting Codex projects" />
+          </label>
+
+          <label class="field">
+            <span>Idea, offer, or product notes</span>
+            <textarea id="brief" rows="8">A local-first app where I can paste an idea, upload project files or screenshots, preview brand directions, and export a full brand guide plus assets into the root folder of a Codex project.</textarea>
+          </label>
+
+          <div class="upload-zone" id="dropZone">
+            <input id="fileInput" type="file" multiple />
+            <div>
+              <strong>Drop docs, screenshots, PDFs, or images</strong>
+              <span>PNG/JPG screenshots become the live project preview frame. Other files are recorded as source context.</span>
+            </div>
+          </div>
+
+          <div class="file-list" id="fileList" aria-live="polite"></div>
+
+          <fieldset class="direction-picker">
+            <legend>Brand direction</legend>
+            <div id="directionOptions"></div>
+          </fieldset>
+        </section>
+
+        <section class="panel preview-panel" id="preview" aria-labelledby="previewTitle">
+          <div class="section-heading compact">
+            <p>Generated Brand System</p>
+            <h2 id="previewTitle">Recommended direction</h2>
+          </div>
+
+          <div class="option-board" id="optionBoard" aria-label="Generated brand direction options"></div>
+
+          <article class="auto-brain-card" aria-labelledby="autoBrainTitle">
+            <div class="applied-preview-header">
+              <div>
+                <p class="label">Full Automation AI Brain</p>
+                <h3 id="autoBrainTitle">Auto-generated redesign choices</h3>
+              </div>
+              <span id="autoBrainStatus">Ready</span>
+            </div>
+            <p id="autoBrainSummary">Choose a project from Portfolio Brand Brain to auto-read it and generate comparable redesign previews.</p>
+            <div class="auto-brain-actions">
+              <button class="secondary-action compact-action" id="generateScreenRedesignsButton" type="button">
+                Generate actual screen redesigns
+              </button>
+              <span id="screenRedesignStatus">Uses the captured project screenshot when available.</span>
+            </div>
+            <div id="autoPreviewGallery" class="auto-preview-gallery"></div>
+            <p class="auto-brain-hint">
+              Pick the direction that feels most right first. Logo generation and install stay locked behind your approval.
+            </p>
+          </article>
+
+          <article class="design-scout-card" aria-labelledby="designScoutTitle">
+            <div class="applied-preview-header">
+              <div>
+                <p class="label">Auto Design Scout</p>
+                <h3 id="designScoutTitle">Reference logic for this project</h3>
+              </div>
+              <span id="designScoutStatus">Auto</span>
+            </div>
+            <p id="designScoutQuery"></p>
+            <div class="scout-reference-list" id="designScoutReferences"></div>
+            <ul class="scout-principle-list" id="designScoutPrinciples"></ul>
+          </article>
+
+          <div class="preview-mode" aria-label="Applied preview mode">
+            <button type="button" class="is-selected" data-preview-mode="app">App</button>
+            <button type="button" data-preview-mode="website">Website</button>
+            <button type="button" data-preview-mode="logo">Logo kit</button>
+          </div>
+
+          <article class="applied-preview-card">
+            <div class="applied-preview-header">
+              <div>
+                <p class="label">Applied preview</p>
+                <h3 id="appliedPreviewTitle">See the brand in context</h3>
+              </div>
+              <span id="appliedPreviewMode">App</span>
+            </div>
+            <div id="appliedPreview" class="applied-preview"></div>
+          </article>
+
+          <article class="brand-card">
+            <div>
+              <p class="label">Positioning</p>
+              <h3 id="positioningTitle"></h3>
+              <p id="positioningCopy"></p>
+            </div>
+            <div class="mini-logo" id="logoPreview" aria-label="Logo preview"></div>
+          </article>
+
+          <article class="logo-lab-card" id="logoLab">
+            <div class="applied-preview-header">
+              <div>
+                <p class="label">Logo approval</p>
+                <h3>Choose the logo before install</h3>
+              </div>
+              <span id="logoApprovalBadge">Required</span>
+            </div>
+            <div class="openai-setup-box">
+              <div>
+                <strong>OpenAI image generation</strong>
+                <span id="openAiStatus">Checking local setup...</span>
+              </div>
+              <label class="field openai-key-field">
+                <span>API key</span>
+                <input id="openAiKeyInput" type="password" autocomplete="off" placeholder="Paste once to save locally in .env.local" />
+              </label>
+              <label class="field openai-quality-field">
+                <span>Image quality</span>
+                <select id="openAiQualitySelect">
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high" selected>High</option>
+                </select>
+              </label>
+              <button class="secondary-action compact-action" id="saveOpenAiKeyButton" type="button">
+                Save OpenAI setup
+              </button>
+            </div>
+            <div class="logo-lab-actions">
+              <button class="secondary-action compact-action" id="generateLogoBoardsButton" type="button">
+                Generate board images
+              </button>
+              <button class="secondary-action compact-action" id="generateLogoVariantsButton" type="button">
+                Generate variant image
+              </button>
+              <button class="secondary-action compact-action" id="generateApprovedLogoButton" type="button">
+                Generate final logo
+              </button>
+              <button class="secondary-action compact-action" id="skipLogoApprovalButton" type="button">
+                Skip for now
+              </button>
+            </div>
+            <p class="logo-lab-status" id="logoLabStatus">Generate separate prompts for each direction, choose one, then generate four logo variants before installing.</p>
+            <div class="profile-actions">
+              <button class="secondary-action compact-action" id="saveProfileButton" type="button">
+                Save profile
+              </button>
+              <label class="field profile-load-field">
+                <span>Restore saved profile</span>
+                <select id="profileSelect">
+                  <option value="">No saved profiles yet</option>
+                </select>
+              </label>
+              <button class="secondary-action compact-action" id="loadProfileButton" type="button">
+                Restore
+              </button>
+              <button class="secondary-action compact-action danger-action" id="deleteProfileButton" type="button">
+                Delete
+              </button>
+            </div>
+            <p class="packet-status" id="profileStatus">Profiles save the current brief, directions, generated images, and logo decision locally.</p>
+            <div class="logo-board-grid" id="logoBoardGrid"></div>
+            <label class="field logo-notes-field">
+              <span>Revision notes for next logo pass</span>
+              <textarea id="logoRevisionNotes" rows="3" placeholder="Example: use the top-left logo lockup from Glasshouse Noir, keep the serif wordmark, remove the extra board elements..."></textarea>
+            </label>
+            <div class="logo-variant-grid" id="logoVariantGrid"></div>
+            <details class="saved-reference-panel">
+              <summary>Saved logo references</summary>
+              <p>These are source images saved into the brand kit. Generated board and variant images are added automatically; manual upload is only a fallback.</p>
+              <div class="logo-asset-actions">
+                <label class="logo-asset-upload">
+                  <span>Attach source/reference sheet</span>
+                  <input id="logoBoardAssetInput" type="file" accept="image/png,image/jpeg,image/webp" />
+                </label>
+                <label class="logo-asset-upload">
+                  <span>Attach final logo image</span>
+                  <input id="logoFinalAssetInput" type="file" accept="image/png,image/jpeg,image/webp" />
+                </label>
+              </div>
+              <div class="logo-asset-grid" id="logoAssetGrid"></div>
+            </details>
+          </article>
+
+          <details class="secondary-output-panel">
+            <summary>Brand system details</summary>
+            <div class="swatch-row" id="swatches" aria-label="Brand color palette"></div>
+
+            <article class="type-card">
+              <p class="label">Typography sample</p>
+              <h3 id="typeHeadline"></h3>
+              <p id="typeBody"></p>
+              <code id="typeStack"></code>
+            </article>
+
+            <div class="asset-grid">
+              <article>
+                <span class="asset-label">Open Graph</span>
+                <div class="og-preview" id="ogPreview">
+                  <strong id="ogTitle"></strong>
+                  <span id="ogText"></span>
+                </div>
+              </article>
+              <article>
+                <span class="asset-label">Social profile</span>
+                <div class="social-preview" id="socialPreview"></div>
+              </article>
+            </div>
+
+            <article class="voice-card">
+              <p class="label">Voice and message</p>
+              <ul id="messageList"></ul>
+            </article>
+          </details>
+        </section>
+
+        <aside class="panel export-panel" id="export" aria-labelledby="exportTitle">
+          <div class="section-heading compact">
+            <p>Export Pack</p>
+            <h2 id="exportTitle">Project-ready files</h2>
+          </div>
+
+          <div class="folder-tree" aria-label="Export folder structure">
+            <div>DESIGN.md</div>
+            <div>docs/brand/BRAND_GUIDE.md</div>
+            <div>docs/brand/BRAND_STRATEGY.md</div>
+            <div>docs/brand/VISUAL_SYSTEM.md</div>
+            <div>docs/brand/DESIGN_SCOUT.md</div>
+            <div>docs/brand/VOICE_AND_MESSAGING.md</div>
+            <div>docs/brand/ASSET_MANIFEST.md</div>
+            <div>docs/brand/LOGO_APPROVAL.md</div>
+            <div>docs/brand/BRAND_INTAKE_PACKET.md</div>
+            <div>docs/brand/brand-intake.json</div>
+            <div>src/styles/brand-tokens.css</div>
+            <div>src/styles/brand-tokens.json</div>
+            <div>src/styles/brand-tailwind-v4.css</div>
+            <div>public/brand/logo/logo-mark.svg</div>
+            <div>public/brand/social/og-default.svg</div>
+            <div>public/brand/social/linkedin-banner.svg</div>
+            <div>public/brand/social/instagram-profile.svg</div>
+          </div>
+
+          <article class="portfolio-brain-card" aria-labelledby="portfolioBrainTitle">
+            <div class="applied-preview-header">
+              <div>
+                <p class="label">Portfolio Brand Brain</p>
+                <h3 id="portfolioBrainTitle">Recommended projects</h3>
+              </div>
+              <button class="secondary-action compact-action" id="refreshPortfolioBrainButton" type="button">
+                Refresh
+              </button>
+            </div>
+            <p id="portfolioBrainStatus">Scanning Workspace projects...</p>
+            <div id="portfolioBrainList" class="portfolio-brain-list"></div>
+          </article>
+
+          <div class="checklist" id="checklist"></div>
+
+          <button class="primary-action" id="exportButton" type="button">
+            Export brand kit zip
+          </button>
+
+          <button class="secondary-action" id="copyPromptButton" type="button">
+            Copy Codex handoff prompt
+          </button>
+
+          <div class="install-box">
+            <label class="field">
+              <span>Target project folder</span>
+              <input id="installPath" type="text" placeholder="/path/to/your/workspace/project-folder" />
+            </label>
+            <div class="install-actions">
+              <button class="secondary-action compact-action" id="previewInstallButton" type="button">
+                Preview install
+              </button>
+              <button class="primary-action compact-action" id="installButton" type="button" disabled>
+                Install approved kit
+              </button>
+            </div>
+            <div class="install-summary" id="installSummary">Preview the install before writing files.</div>
+          </div>
+
+          <div class="test-readiness-box">
+            <div>
+              <p class="label">Full test readiness</p>
+              <strong id="testReadinessTitle">Not ready yet</strong>
+            </div>
+            <div class="test-readiness-list" id="testReadinessList"></div>
+          </div>
+
+          <p class="export-note" id="exportNote">Brand files install locally. OpenAI is used only when you click an image-generation button.</p>
+        </aside>
+      </main>
+    </div>
+
+    <dialog class="image-lightbox" id="imageLightbox" aria-label="Generated image preview">
+      <button class="icon-button image-lightbox-close" id="imageLightboxClose" type="button" aria-label="Close image preview">X</button>
+      <img id="imageLightboxImage" alt="Generated brand image preview" />
+    </dialog>
+
+    <script src="./src/app.js" type="module"></script>
+  </body>
+</html>

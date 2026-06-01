@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="512" viewBox="0 0 1200 512" role="img" aria-labelledby="title">
+  <title id="title">Brand Kit Studio primary logo</title>
+  <rect width="1200" height="512" rx="48" fill="#f8f8f5"/>
+  <rect x="56" y="56" width="400" height="400" rx="42" fill="#102a37"/>
+  <path d="M96 352 L256 104 L416 352" fill="none" stroke="#ff6b4a" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="256" y="292" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="118" font-weight="900" fill="#ffffff">BK</text>
+  <text x="512" y="248" font-family="Inter, Arial, sans-serif" font-size="76" font-weight="850" fill="#141412">Brand Kit Studio</text>
+  <text x="516" y="312" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700" fill="#22577a">Local project brand generator</text>
+</svg>

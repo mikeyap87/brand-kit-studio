@@ -1,0 +1,4 @@
+.env.local
+node_modules/
+data/profiles/
+.DS_Store
