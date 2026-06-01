@@ -25,6 +25,13 @@ npm run check
 
 Run checks before opening a pull request.
 
+## Finding Work
+
+- Read [ROADMAP.md](ROADMAP.md) for current maintainer priorities.
+- Look for issues whose titles start with `starter:` if you want a smaller first contribution.
+- Look for issues whose titles start with `help wanted:` if you want a broader task that still has a clear maintainer direction.
+- If you want to propose a new workflow or provider step, open an issue before building something large.
+
 ## Safety Expectations
 
 - Do not commit `.env.local`, generated profile data, or private workspace artifacts.
