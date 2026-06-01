@@ -101,6 +101,10 @@ Optional: set `WORKSPACE_ROOT` when your project workspace lives somewhere other
 
 The project brand source of truth lives in `docs/brand/BRAND_GUIDE.md`.
 
+## Roadmap
+
+See [ROADMAP.md](ROADMAP.md) for the current public maintainer priorities.
+
 ## Open Source
 
 If you want to help improve the project, start with `CONTRIBUTING.md`. For private vulnerability reports, use `SECURITY.md`. Contributor behavior expectations live in `CODE_OF_CONDUCT.md`.
